@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      version = ">= 3.55.0"
     }
   }
 
@@ -14,9 +14,9 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-east-1"
+  region  = var.region
   profile = "dev-staging"
-  
+
   default_tags {
     tags = {
       Environment = "Test"

@@ -13,7 +13,7 @@ resource "aws_iam_role_policy" "elb_instance_manager_role_policy" {
           "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
           "elasticloadbalancing:RegisterTargets",
           "elasticloadbalancing:DeregisterTargets",
-          "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",  
+          "elasticloadbalancing:DeregisterInstancesFromLoadBalancer"
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -30,7 +30,7 @@ resource "aws_iam_role_policy" "elb_instance_manager_role_policy" {
 }
 
 resource "aws_iam_role" "elb_instance_manager_role" {
-  name = "elb-instance-manager"
+  name        = "elb-instance-manager"
   description = "Role used by the ELB Instance Manager service"
 
   assume_role_policy = jsonencode({
