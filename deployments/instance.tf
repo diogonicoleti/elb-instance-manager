@@ -1,3 +1,13 @@
+data "aws_ami" "amazon2" {
+  owners      = ["amazon"]
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-2.0.20210721.2-x86_64-gp2"]
+  }
+}
+
 resource "aws_security_group" "elb_instance_manager_sg" {
   name        = "elb-instance-manager"
   description = "Allow HTTP inbound traffic to ELB Instance Manager Service"
@@ -18,5 +28,27 @@ resource "aws_security_group" "elb_instance_manager_sg" {
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
+  }
+}
+
+resource "aws_instance" "elb_instance_manager_instance" {
+  ami                    = data.aws_ami.amazon2.id
+  instance_type          = "t3.micro"
+  subnet_id              = var.public_subnet_id
+  vpc_security_group_ids = [aws_security_group.elb_instance_manager_sg.id]
+  iam_instance_profile   = aws_iam_instance_profile.elb_instance_manager_instance_profile.name
+
+  root_block_device {
+    volume_type           = "gp2"
+    volume_size           = "10"
+    delete_on_termination = true
+  }
+
+  volume_tags = {
+    Name = "elb-instance-manager"
+  }
+
+  tags = {
+    Name = "elb-instance-manager"
   }
 }

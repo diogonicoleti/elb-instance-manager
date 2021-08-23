@@ -22,6 +22,7 @@ provider "aws" {
       Environment = "Test"
       Team        = "SRE"
       Project     = "ELBInstanceManager"
+      Provider    = "terraform"
     }
   }
 }
