@@ -34,7 +34,7 @@ resource "aws_security_group" "elb_instance_manager_sg" {
 resource "aws_instance" "elb_instance_manager_instance" {
   ami                    = data.aws_ami.amazon2.id
   instance_type          = "t3.micro"
-  subnet_id              = var.public_subnet_id
+  subnet_id              = var.public_subnet_ids[0]
   vpc_security_group_ids = [aws_security_group.elb_instance_manager_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.elb_instance_manager_instance_profile.name
 
