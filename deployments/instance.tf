@@ -38,14 +38,16 @@ resource "aws_instance" "elb_instance_manager_instance" {
   vpc_security_group_ids = [aws_security_group.elb_instance_manager_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.elb_instance_manager_instance_profile.name
 
+  user_data = file("${path.module}/templates/userdata.sh")
+
   root_block_device {
     volume_type           = "gp2"
     volume_size           = "10"
     delete_on_termination = true
-  }
 
-  volume_tags = {
-    Name = "elb-instance-manager"
+    tags = {
+      Name = "elb-instance-manager"
+    }
   }
 
   tags = {

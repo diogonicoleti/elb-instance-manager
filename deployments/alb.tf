@@ -54,7 +54,7 @@ resource "aws_lb_target_group" "default_alb_http_target_group" {
   health_check {
     enabled  = true
     protocol = "HTTP"
-    path     = "/healthcheck"
+    path     = "/"
     matcher  = 200
     interval = 15
   }
