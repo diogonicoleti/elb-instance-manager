@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, post_load
 
 
 class MachineInfoSchema(Schema):
@@ -12,3 +12,7 @@ class MachineInfoSchema(Schema):
 
 class MachineIdSchema(Schema):
     InstanceId = fields.Str(required=True, data_key="instanceId")
+
+    @post_load
+    def instance_id(self, data, **kwargs):
+        return data['InstanceId']

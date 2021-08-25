@@ -32,10 +32,10 @@ class ELBResource(Resource):
 
     def delete(self, elb_name):
         try:
-            id = self.__get_iid()
-            self.alb.deregister(elb_name, id)
+            id = self.__get_instance_id()
+            #self.alb.deregister(elb_name, id)
         except ValidationError:
             return 'Wrong data format', 400
 
     def __get_instance_id(self):
-        return MachineIdSchema().load(request.get_json()).InstanceId
+        return MachineIdSchema().load(request.get_json())
