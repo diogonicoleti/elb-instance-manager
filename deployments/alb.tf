@@ -51,7 +51,7 @@ resource "aws_lb_target_group" "default_alb_http_target_group" {
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   
-  deregistration_delay = 5
+  deregistration_delay = 0
 
   health_check {
     enabled  = true
