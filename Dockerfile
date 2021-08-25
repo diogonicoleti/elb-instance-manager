@@ -10,7 +10,7 @@ COPY elb_instance_manager .
 RUN addgroup -S app && adduser -S -G app app && \
     chown -R app:app /app
 
-EXPOSE 5000
+EXPOSE 80
 
 USER app
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "server:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "server:app"]
