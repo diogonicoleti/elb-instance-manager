@@ -8,8 +8,6 @@ from core.ec2 import EC2
 from schemas.machine import MachineIdSchema, MachineInfoSchema
 from schemas.error import ErrorResponseSchema
 
-errResponseSchema = ErrorResponseSchema()
-
 
 class ELBResource(Resource):
     def __init__(self):
@@ -60,17 +58,17 @@ class ELBResource(Resource):
         return MachineIdSchema().load(request.get_json())
 
     def __get_validation_error(self, message):
-        return errResponseSchema.dump({
+        return ErrorResponseSchema().dump({
             'Code': 'ValidationError',
             'Message': message
         })
 
     def __handle_client_error(self, err):
+        schema = ErrorResponseSchema()
         if err.response['Error']['Code'] == 'LoadBalancerNotFound':
-            return errResponseSchema.dump(err.response['Error']), 404
-        if err.response['Error']['Code'] in ('ValidationError',
-                                             'InvalidTarget'):
-            return errResponseSchema.dump(err.response['Error']), 400
+            return schema.dump(err.response['Error']), 404
+        if err.response['Error']['Code'] in ('ValidationError', 'InvalidTarget'):
+            return schema.dump(err.response['Error']), 400
 
         logging.error('Unexpected error: %s' % err)
-        return errResponseSchema.dump(err.response['Error']), 500
+        return schema.dump(err.response['Error']), 500
