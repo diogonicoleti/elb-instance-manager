@@ -1,7 +1,8 @@
+VERSION := $(shell cat VERSION)
+DOCKER_IMAGE := $(shell jq -r .docker_image config.json)
 PYTHON := python
 TERRAFORM := terraform -chdir=deployments
-DOCKER_IMAGE := dnicoleti/elb-instance-manager
-VERSION := $(shell cat VERSION)
+TERRAFORM_PARAM := -var-file=../config.json -var="docker_tag=$(VERSION)"
 
 
 .PHONY: setup clean build-image plan deploy-infra release deploy test run bump-version-patch bump-version-minor bump-version
@@ -19,10 +20,10 @@ build-image:
 	docker build -t $(DOCKER_IMAGE):$(VERSION) -t $(DOCKER_IMAGE):latest .
 
 plan:
-	$(TERRAFORM) plan
+	$(TERRAFORM) plan $(TERRAFORM_PARAM)
 
 deploy-infra:
-	$(TERRAFORM) apply
+	$(TERRAFORM) apply $(TERRAFORM_PARAM)
 
 release: build-image
 	docker push $(DOCKER_IMAGE):$(VERSION)

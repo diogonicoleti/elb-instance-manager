@@ -1,0 +1,6 @@
+{
+  "region": "us-east-1",
+  "vpc_id": "vpc-09a831116266ea80f",
+  "public_subnet_ids": ["subnet-08800d108edfad226", "subnet-0235f7e1d9e15f1fb"],
+  "docker_image": "dnicoleti/elb-instance-manager"
+}

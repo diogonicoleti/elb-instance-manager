@@ -17,3 +17,8 @@ variable "docker_image" {
   description = "The ELB Instance Manager docker image to run inside the EC2 instance"
   type        = string
 }
+
+variable "docker_tag" {
+  description = "The ELB Instance Manager docker image tag to run inside the EC2 instance"
+  type        = string
+}
