@@ -7,5 +7,5 @@ service docker start
 usermod -a -G docker ec2-user
 chkconfig docker on
 
-docker run -d --expose 80 --restart always \
+docker run -d -p 80:80 --restart always \
     --name elb-instance-manager ${docker_image}
