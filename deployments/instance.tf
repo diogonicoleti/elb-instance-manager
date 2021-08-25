@@ -40,6 +40,7 @@ resource "aws_instance" "elb_instance_manager_instance" {
 
   user_data = templatefile("${path.module}/templates/userdata.sh", {
     docker_image = var.docker_image
+    region       = var.region
   })
 
   root_block_device {
