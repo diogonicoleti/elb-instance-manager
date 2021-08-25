@@ -4,7 +4,7 @@ from flask import request
 from marshmallow import ValidationError
 from core.alb import ALB
 from core.ec2 import EC2
-from schemas import MachineIdSchema, MachineInfoSchema
+from schemas.machine import MachineIdSchema, MachineInfoSchema
 
 
 class ELBResource(Resource):
