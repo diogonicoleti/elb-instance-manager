@@ -7,7 +7,12 @@ class EC2(object):
 
     def get_instances(self, instance_ids):
         response = self.client.describe_instances(InstanceIds=instance_ids)
-        return response['Reservations'][0]['Instances']
+        instances = []
+        for reservation in response['Reservations']:
+            for instance in reservation['Instances']:
+                instances.append(instance)
+
+        return instances
 
     def get_instance(self, instance_id):
         return self.get_instances([instance_id])[0]

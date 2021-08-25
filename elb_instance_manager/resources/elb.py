@@ -15,8 +15,8 @@ class ELBResource(Resource):
     def get(self, elb_name):
         try:
             alb_instance_ids = self.alb.get_instance_ids(elb_name)
-            registered_instances = self.ec2.get_instances(alb_instance_ids)
-            return MachineInfoSchema(many=True).dump(registered_instances), 200
+            instances = self.ec2.get_instances(alb_instance_ids) if alb_instance_ids else []
+            return MachineInfoSchema(many=True).dump(instances), 200
         except ClientError as err:
             if err.response['Error']['Code'] == 'LoadBalancerNotFound':
                 return 'Load Balancer not found', 404
