@@ -4,7 +4,7 @@ DOCKER_IMAGE := dnicoleti/elb-instance-manager
 VERSION := $(shell cat VERSION)
 
 
-.PHONY: setup clean build-image plan deploy-infra release deploy test run
+.PHONY: setup clean build-image plan deploy-infra release deploy test run bump-version-patch bump-version-minor bump-version
 
 setup: requirements.txt
 	pip install -r requirements.txt
@@ -30,8 +30,13 @@ release: build-image
 
 deploy: release deploy-infra
 
-bump-version:
-	bumpversion --current-version $(VERSION) minor VERSION
+bump-version-patch:
+	bumpversion --allow-dirty --current-version $(VERSION) patch VERSION
+
+bump-version-minor:
+	bumpversion --allow-dirty --current-version $(VERSION) minor VERSION
+
+bump-version: bump-version-minor
 
 test:
 	$(PYTHON) -m pytest
