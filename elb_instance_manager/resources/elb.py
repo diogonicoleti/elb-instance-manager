@@ -27,6 +27,7 @@ class ELBResource(Resource):
         try:
             id = self.__get_instance_id()
             self.alb.register(elb_name, id)
+            return self.__get_instance(id), 200
         except ValidationError:
             return 'Wrong data format', 400
 
@@ -34,8 +35,12 @@ class ELBResource(Resource):
         try:
             id = self.__get_instance_id()
             self.alb.deregister(elb_name, id)
+            return self.__get_instance(id), 200
         except ValidationError:
             return 'Wrong data format', 400
+
+    def __get_instance(self, instance_id):
+        return MachineInfoSchema().dump(self.ec2.get_instance(instance_id))
 
     def __get_instance_id(self):
         return MachineIdSchema().load(request.get_json())

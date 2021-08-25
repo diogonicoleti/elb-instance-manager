@@ -8,3 +8,6 @@ class EC2(object):
     def get_instances(self, instance_ids):
         response = self.client.describe_instances(InstanceIds=instance_ids)
         return response['Reservations'][0]['Instances']
+
+    def get_instance(self, instance_id):
+        return self.get_instances([instance_id])[0]
