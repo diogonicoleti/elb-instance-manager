@@ -6,6 +6,9 @@ from marshmallow import ValidationError
 from core.alb import ALB
 from core.ec2 import EC2
 from schemas.machine import MachineIdSchema, MachineInfoSchema
+from schemas.error import ErrorResponseSchema
+
+errResponseSchema = ErrorResponseSchema()
 
 
 class ELBResource(Resource):
@@ -26,12 +29,13 @@ class ELBResource(Resource):
         try:
             id = self.__get_instance_id()
             if id in self.alb.get_instance_ids(elb_name):
-                return 'Instance already on load balancer', 409
+                return self.__get_validation_error(
+                    'Instance already on load balancer'), 409
 
             self.alb.register(elb_name, id)
             return self.__get_instance(id), 201
         except ValidationError:
-            return 'Wrong data format', 400
+            return self.__get_validation_error('Wrong data format'), 400
         except ClientError as err:
             return self.__handle_client_error(err)
 
@@ -39,12 +43,13 @@ class ELBResource(Resource):
         try:
             id = self.__get_instance_id()
             if id not in self.alb.get_instance_ids(elb_name):
-                return 'Instance is not on load balancer', 409
+                return self.__get_validation_error(
+                    'Instance is not on load balancer'), 409
 
             self.alb.deregister(elb_name, id)
             return self.__get_instance(id), 201
         except ValidationError:
-            return 'Wrong data format', 400
+            return self.__get_validation_error('Wrong data format'), 400
         except ClientError as err:
             return self.__handle_client_error(err)
 
@@ -54,11 +59,18 @@ class ELBResource(Resource):
     def __get_instance_id(self):
         return MachineIdSchema().load(request.get_json())
 
+    def __get_validation_error(self, message):
+        return errResponseSchema.dump({
+            'Code': 'ValidationError',
+            'Message': message
+        })
+
     def __handle_client_error(self, err):
         if err.response['Error']['Code'] == 'LoadBalancerNotFound':
-            return 'Load Balancer not found', 404
-        if err.response['Error']['Code'] == 'ValidationError':
-            return err.response['Error']['Message'], 400
+            return errResponseSchema.dump(err.response['Error']), 404
+        if err.response['Error']['Code'] in ('ValidationError',
+                                             'InvalidTarget'):
+            return errResponseSchema.dump(err.response['Error']), 400
 
         logging.error('Unexpected error: %s' % err)
-        return 'Unexpected error', 500
+        return errResponseSchema.dump(err.response['Error']), 500
