@@ -38,7 +38,9 @@ resource "aws_instance" "elb_instance_manager_instance" {
   vpc_security_group_ids = [aws_security_group.elb_instance_manager_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.elb_instance_manager_instance_profile.name
 
-  user_data = file("${path.module}/templates/userdata.sh")
+  user_data = templatefile("${path.module}/templates/userdata.sh", {
+    docker_image = var.docker_image
+  })
 
   root_block_device {
     volume_type           = "gp2"

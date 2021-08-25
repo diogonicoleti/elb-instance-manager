@@ -50,13 +50,13 @@ resource "aws_lb_target_group" "default_alb_http_target_group" {
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
-  
+
   deregistration_delay = 0
 
   health_check {
     enabled  = true
     protocol = "HTTP"
-    path     = "/"
+    path     = "/healthcheck"
     matcher  = 200
     interval = 15
   }
