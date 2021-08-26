@@ -37,8 +37,6 @@ bump-version-patch:
 bump-version-minor:
 	bumpversion --allow-dirty --current-version $(VERSION) minor VERSION
 
-bump-version: bump-version-minor
-
 test:
 	$(PYTHON) -m pytest
 
