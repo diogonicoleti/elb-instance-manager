@@ -1,4 +1,4 @@
-from elb_instance_manager.resources.health_check import HealthCheckResource
+from resources.health_check import HealthCheckResource
 
 
 def test_get():

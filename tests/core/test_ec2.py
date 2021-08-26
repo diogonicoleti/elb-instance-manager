@@ -1,4 +1,4 @@
-from elb_instance_manager.core.ec2 import EC2
+from core.ec2 import EC2
 from tests.helpers import assert_ec2_instance
 
 
