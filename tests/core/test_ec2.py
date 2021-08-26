@@ -13,12 +13,14 @@ def mocked_instance_ids(ec2_client):
                                            MinCount=5)
     return [instance['InstanceId'] for instance in reservation['Instances']]
 
+
 def test_get_instances(ec2_client, mocked_instance_ids):
     instances = EC2().get_instances(mocked_instance_ids[:2])
 
     assert len(instances) == 2
     assert_ec2_instance(instances[0])
     assert_ec2_instance(instances[1])
+
 
 def test_get_instance(ec2_client, mocked_instance_ids):
     instance = EC2().get_instance(mocked_instance_ids[0])
