@@ -1,5 +1,4 @@
 from core.alb import ALB
-from tests.helpers import assert_ec2_instance
 from tests import ALB_NAME
 
 

@@ -2,3 +2,4 @@
 # Source: moto/ec2/resources/amis.json
 EXAMPLE_AMI_ID = 'ami-12c6146b'
 ALB_NAME = 'default-alb'
+INSTANCE_TYPE = 't3.micro'

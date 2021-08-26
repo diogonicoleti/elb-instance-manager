@@ -67,7 +67,8 @@ class ELBResource(Resource):
         schema = ErrorResponseSchema()
         if err.response['Error']['Code'] == 'LoadBalancerNotFound':
             return schema.dump(err.response['Error']), 404
-        if err.response['Error']['Code'] in ('ValidationError', 'InvalidTarget'):
+        if err.response['Error']['Code'] in ('ValidationError',
+                                             'InvalidTarget'):
             return schema.dump(err.response['Error']), 400
 
         logging.error('Unexpected error: %s' % err)

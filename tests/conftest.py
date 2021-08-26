@@ -3,7 +3,7 @@ import pytest
 import os
 
 from moto import mock_ec2, mock_elbv2
-from tests import EXAMPLE_AMI_ID, ALB_NAME
+from tests import EXAMPLE_AMI_ID, ALB_NAME, INSTANCE_TYPE
 
 
 @pytest.fixture(scope='function')
@@ -30,7 +30,7 @@ def elbv2_client(aws_credentials):
 @pytest.fixture(scope='function')
 def mocked_instance_ids(ec2_client):
     reservation = ec2_client.run_instances(ImageId=EXAMPLE_AMI_ID,
-                                           InstanceType='t3.micro',
+                                           InstanceType=INSTANCE_TYPE,
                                            MaxCount=5,
                                            MinCount=5)
     return [instance['InstanceId'] for instance in reservation['Instances']]
