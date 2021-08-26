@@ -15,7 +15,6 @@ terraform {
 
 provider "aws" {
   region  = var.region
-  profile = "dev-staging"
 
   default_tags {
     tags = {

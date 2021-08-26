@@ -6,6 +6,7 @@ A simple HTTP service to manage instances in a ELB
 
 To be able to develop and execute the tasks is expected that you have the following tools installed:
 
+ - `jq`: It's used by the Makefile to read data from the configuration value
  - `terraform`: To apply the infrastructure recipes. The version must be higher than `1.0.5`
  - `docker`: To create the Docker image and publish it to a image registry
  - `python3`: To be able to run the code and develop
@@ -100,6 +101,8 @@ make deploy-infra
 ```
 
 :warning: The user used to run the commands **must have** permission to create all the resources in the AWS account.
+
+:warning: In the first apply Terraform doesn't set the Target group deregistration correctly due to this bug https://github.com/hashicorp/terraform-provider-aws/issues/17309. To solve it, you can re-apply the infrastructure using the `make deploy-infra` command again.
 
 ### Complete deploy
 
