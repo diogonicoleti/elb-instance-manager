@@ -13,3 +13,5 @@ The deployment is done in the following way:
 - After building the image, it'll run a `terraform apply` passing the `config.json` file as variable file and a standalone variable called `docker_tag` that use the same value used to build and public the image (the one inside the `VERSION` file)
 
 All the automation is done through the `Makefile` and the available commands as describe in the `README.md`
+
+As I don't have a deep knowledge in Python, mainly to develop web applications (I excited to learn it better!), and have a time constraint I decided to write just a small subset of unit tests due the complexity to mock some components like Flask.
