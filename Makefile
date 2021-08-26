@@ -8,7 +8,7 @@ TERRAFORM_PARAM := -var-file=../config.json -var="docker_tag=$(VERSION)"
 .PHONY: setup clean build-image plan deploy-infra release deploy bump-version-patch bump-version-minor bump-version test run
 
 setup: requirements.txt
-	pip install -r requirements.txt
+	pip install -r requirements-dev.txt
 	pip install bumpversion
 	$(TERRAFORM) init
 
