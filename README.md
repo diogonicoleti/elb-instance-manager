@@ -156,20 +156,24 @@ curl http://127.0.0.1:5000/healthcheck
 
 List instances registered in an ALB:
 ```
-curl http://127.0.0.1:5000/elb/default-alb
+curl -u diogo.nicoleti:pass http://127.0.0.1:5000/elb/default-alb
 ```
 
 Register an instance on an ALB:
 ```
-curl -H "Content-Type:application/json" -d '{"instanceId": "i-06060a1e235609999"}' \
+curl -u diogo.nicoleti:pass -H "Content-Type:application/json" \
+    -d '{"instanceId": "i-06060a1e235609999"}' \
     -X POST http://127.0.0.1:5000/elb/default-alb
 ```
 
 Deregister an instance from an ALB:
 ```
-curl -H "Content-Type:application/json" -d '{"instanceId": "i-06060a1e235609999"}' \
+curl -u diogo.nicoleti:pass -H "Content-Type:application/json" \
+    -d '{"instanceId": "i-06060a1e235609999"}' \
     -X DELETE http://127.0.0.1:5000/elb/default-alb
 ```
+
+:warning: All the endpoints require a Basic Authentation. To get the user and password you can look at the `elb_instance_manager\auth.py` file, there is the user available.
 
 ## Roadmap
 
@@ -181,6 +185,7 @@ There are a lot of things to do and improvements that could be done in next vers
 - Add a check to verify if all prerequisites exists (Terraform, Docker and Python)
 - Add a interative command (or use the `setup` command) to ask for the required configuration and build the `config.json` file automatically
 - Use a better backend for Terraform, instead of a local backend
+- Remove the hardcoded user from the code, change it for an environment variable
 - And probably a lot more!
 
 Have fun! :beer:
