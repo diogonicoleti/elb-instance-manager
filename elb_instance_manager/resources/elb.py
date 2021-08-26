@@ -7,6 +7,7 @@ from core.alb import ALB
 from core.ec2 import EC2
 from schemas.machine import MachineIdSchema, MachineInfoSchema
 from schemas.error import ErrorResponseSchema
+from auth import auth
 
 
 class ELBResource(Resource):
@@ -14,6 +15,7 @@ class ELBResource(Resource):
         self.alb = ALB()
         self.ec2 = EC2()
 
+    @auth.login_required
     def get(self, elb_name):
         try:
             alb_instance_ids = self.alb.get_instance_ids(elb_name)
@@ -23,6 +25,7 @@ class ELBResource(Resource):
         except ClientError as err:
             return self.__handle_client_error(err)
 
+    @auth.login_required
     def post(self, elb_name):
         try:
             id = self.__get_instance_id()
@@ -37,6 +40,7 @@ class ELBResource(Resource):
         except ClientError as err:
             return self.__handle_client_error(err)
 
+    @auth.login_required
     def delete(self, elb_name):
         try:
             id = self.__get_instance_id()
